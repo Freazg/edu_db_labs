@@ -1,14 +1,6 @@
----
-home: true
-actionText: Розпочати →
-actionLink: /intro/
-
-footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
----
-
 **Виконав(-ла):**
 
-*студент(-ка) 2-го курсу, групи ІО-31*<span padding-right:5em></span> **Сас Євгеній** [Telegram: @Freaz_g](https://t.me/Freaz_g)
+*студент 2-го курсу, групи ІО-31*<span padding-right:5em></span> **Сас Євгеній** [Telegram: @Freaz_g](https://t.me/Freaz_g)
 
 **Керівник**
 
