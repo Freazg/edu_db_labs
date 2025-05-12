@@ -6,15 +6,13 @@ actionLink: /intro/
 footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
 ---
 
+**Виконав(-ла):**
 
-**Виконав(-ла):** 
-
-*студент(-ка) 2-го курсу, групи (шифр групи)*<span padding-right:5em></span> **[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
-
+*студент(-ка) 2-го курсу, групи ІО-31*<span padding-right:5em></span> **Сас Євгеній** [Telegram: @Freaz_g](https://t.me/Freaz_g)
 
 **Керівник**
 
-*доцент кафедри ОТ ФІОТ, к.т.н., доцент*<span padding-right:5em></span> **Андрій БОЛДАК** 
+*доцент кафедри ОТ ФІОТ, к.т.н., доцент*<span padding-right:5em></span> **Андрій БОЛДАК**
 
 [НТУУ "КИЇВСЬКИЙ ПОЛІТЕХНІЧНИЙ ІНСТИТУТ імені ІГОРЯ СІКОРСЬКОГО](https://kpi.ua/)
 
