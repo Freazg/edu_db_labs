@@ -10,6 +10,7 @@
 
 В markdown-файлі використовується опис діаграми
 
+```plantuml
 @startuml
 actor "Користувач" as user
 actor "Керівник проекту" as manager
