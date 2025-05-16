@@ -2,7 +2,7 @@
 
 В рамках проекту розробляється: 
 # SQL-скрипт для створення на початкового наповнення бази даних
-
+```sql
 -- 1. Створення розширення для UUID
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -168,7 +168,6 @@ CREATE INDEX IF NOT EXISTS idx_message_recipient ON messages(recipient_id);
 CREATE INDEX IF NOT EXISTS idx_report_author ON reports(author_id);
 CREATE INDEX IF NOT EXISTS idx_audit_log_user ON audit_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_log_entity ON audit_logs(entity_type, entity_id);
-
-
+```
 
 
