@@ -1,4 +1,4 @@
 # Розроблення загальних вимог до системи
 
-- [Аналіз предметної області](/requirements/2/)
-- [Запити зацікавлених осіб](/requirements/1/)
+- [Аналіз предметної області](/requirements/stakeholders-needs/)
+- [Запити зацікавлених осіб](/requirements/state-of-the-art/)
