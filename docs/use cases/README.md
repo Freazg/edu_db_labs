@@ -4,25 +4,76 @@
 
 *Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.*
 
-## Загальна схема прецедентів
 
-![Загальна схема](https://www.plantuml.com/plantuml/png/RP31JiGW48RlynJZFgGDUbSN8sG2H2K1kWEfgL4afaIMNbMF5vA1TVRkGvkRlfhF8JLt6xzqDXPTVwQqPNuHoTgLPRFV1-9v8OwJmgVu6IKYWMkNaYOXuJWrfv8z-_vKGJDSo6uDUIBMaEWkTLRrTN4vjBgNCQmVfFbAHgScWcCLfXbE3_IJIP35qXoJzMVm83wSa5hs64OlNDQrr2LFfUoNUa-2Cjjp-jOAGy0Df1DhFOW4aMUVfpDNXJqx6OFQnY4t60Vn8fB0o88TqOWQvXvSXAhXtdSNFFdUDrF53uRCYgM9m-gVq_JpxwCW-W00)
 
-## Схема користувача
+Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
 
-![Схема користувача](https://www.plantuml.com/plantuml/png/HOv12i8m44NtEKKkq0N8R00L0KK2KnZ44ZXWYbiYnGDjr_oOcQH5XOyAg-FlqIRsahQ9xyGOoXDXYoAwYoWCb2lILgqM57fJXjz8bcfTZRXpVacdEo9v8-4EFsK4wZXIYhw3WwB9OyDT1XYPiIoQnw5WFyqb7BQnw-vCMqnrVlIEmC2jwHEKfv_ZxSVVJK5jTrm0)
+В markdown-файлі використовується опис діаграми
 
-## Схема керівника
+@startuml
+actor "Користувач" as user
+actor "Керівник проекту" as manager
+actor "Адміністратор" as admin
 
-![Схема керівника](https://www.plantuml.com/plantuml/png/TOv12i8m44NtEOLNRCWrEm9Y82W2aWPYqaEbYIb3JakTsxyUnOcRCuIASPJpppRp7BPJRw0YELXYoAwYoWCb2lILgqM57fJXjz8d6fTZRXpVacdEo9v8-4EFs2bJZC27rCfQwfQIPcj9Lz1SZXa40BQQ46nDMFqcpMIcYgDQqbxvVgYvpgDxPKZZHLuKZmFKTy0)
+user --> (Перегляд проектів)
+user --> (Реєстрація користувача)
+user --> (Виконання завдань)
+user --> (Написання повідомлень)
 
-## Схема адміністратора
+manager --> (Створення проекту)
+manager --> (Додавання учасників до проекту)
+manager --> (Призначення завдань)
 
-![Схема адміністратора](https://www.plantuml.com/plantuml/png/BOr12i8m44NtEKKkq0NgS0aV0KK2KnZ44ZXWYfuYnGDjr_oWCNlxGOLnVhoxltZ_HBKZcxuGY7vv74O-MKvRo3gmgjLLUzZU2dtJHCLwTLLfOOUeJzrr3TXrEeKA2O0P41jZbWDAo5qQpKDTzJqpXxSc8-MdcN9VoVoXFm00)
+admin --> (Налаштування системи)
+admin --> (Керування користувачами)
+admin --> (Керування проектами)
 
-## Діаграми прецедентів
+user -down-> manager : Спільні дії
+manager -down-> admin : Спільні дії
 
-### UserSignUp - Реєстрація користувача
+@enduml
+
+*Загальна схема*
+
+@startuml
+actor "Користувач" as user
+
+user --> (Перегляд проектів) : ID: ViewProjects
+user --> (Реєстрація користувача) : ID: UserSignUp
+user --> (Виконання завдань) : ID: CreateTask
+user --> (Написання повідомлень) : ID: SendMessage
+
+@enduml
+ 
+*Схема користувача*
+
+@startuml
+actor "Керівник проекту" as manager
+
+manager --> (Створення проекту) : ID: CreateProject
+manager --> (Додавання учасників до проекту) : ID: AddMemberToProject
+manager --> (Редагування проекту) : ID: EditProject
+manager --> (Призначення завдань) : ID: AssignTask
+manager --> (Формування звітів) : ID: GenerateReports
+manager --> (Управління правами доступу) : ID: ManagePermissions
+
+@enduml
+ 
+*Схема керівника*
+
+@startuml
+actor "Адміністратор" as admin
+
+admin --> (Керування проектами) : ID: ManageProjects
+admin --> (Налаштування системи) : ID: ManageSystemSettings
+admin --> (Керування користувачами) : ID: ManageUsers
+
+@enduml
+
+*Схема адміністратора*
+
+
+**Діаграма прецедентів**
 
 | ID             | UserSignUp                             |
 |----------------|----------------------------------------|
@@ -33,9 +84,37 @@
 | Виключні ситуації | Якщо не заповнені обов'язкові поля реєстрації — NullReferenceException<br> Якщо обліковий запис вже існує — UserAlreadyExistsException<br> Якщо пароль не відповідає вимогам безпеки — NotStrongPasswordException |
 | Основний сценарій | 1. Користувач натискає кнопку "Створити обліковий запис".<br> 2. Користувач заповнює реєстраційну форму.<br> 3. Користувач натискає кнопку "Зареєструватися".<br> 4. Система перевіряє коректність введених даних:<br>    - Якщо дані некоректні, генерується NullReferenceException або NotStrongPasswordException.<br> 5. Система перевіряє, чи існує обліковий запис з такими даними:<br>    - Якщо запис вже існує, генерується UserAlreadyExistsException.<br> 6. Якщо всі перевірки успішні, система створює новий обліковий запис.<br> 7. Користувач переходить до свого новоствореного облікового запису. |
 
-![Реєстрація користувача](https://www.plantuml.com/plantuml/png/lP9DRjj03CVlVOg-GzG48L1JWWwMTK6waf5Gg4oJTcxsxPQkETILTiRTctiJTBBh_lsS2XFOEOzKNV5HngFbL_GZqxE8H6AZg5IOC6dI1tSTzEjUBpf5QYbWq-3pzQCLf9g3UhG3H9n1sVjAgDlqoUq_rkEo0cQWlhazabkLCECsjWJ4IQF3lSB1IqEGYw9LgkQBqNBKDzQGw_AHs9G6kgIcpJYC-pFSMWZK4IHnH6H2QbFaOY5bJqgUyUGjzWFQXY_6GNt6A24HdLu2nDi8h7Zn1Pm_yw9wCOPy1FkiYUwYJJAiYlk6Tp_NnJrVBjzUXmHYl3lLMuwcTkjJvNtK-_2CjnT5qdKXITqx-OmBIj93Uq7uNmICMQ9EXRNmZEGChzmmNRgyhJJ1yyJ5S6o11a5NxxoKYnDnBGZkCBn2REBiC6Qvpq4Ut3deCOsE3nt-Ixgt5LcMCVNdksdBCZ_y0G00)
 
-### CreateTask - Виконання завдань
+@startuml
+|Користувач|
+start
+:Натискає кнопку "Створити обліковий запис";
+:Заповнює реєстраційну форму;
+:Натискає кнопку "Зареєструватися";
+
+|Система|
+:Виводить форму реєстрації;
+:Перевіряє коректність введених даних;
+if (Можливі помилки) then (NullReferenceException)
+    :NullReferenceException;
+else (NotStrongPasswordException)
+    :NotStrongPasswordException;
+endif
+
+:Перевіряє, чи існує обліковий запис з такими даними;
+if (Обліковий запис існує) then (UserAlreadyExistsException)
+    :UserAlreadyExistsException;
+else (Обліковий запис не існує)
+    :Створює новий обліковий запис;
+endif
+
+|Користувач|
+:Переходить до свого новоствореного облікового запису;
+stop
+@enduml
+
+*****
+
 
 | ID             | CreateTask                             |
 |----------------|----------------------------------------|
@@ -46,9 +125,26 @@
 | Виключні ситуації | Завдання не існує — TaskNotFoundException<br> Недостатньо прав для виконання завдання — AccessDeniedException |
 | Основний сценарій | 1. Користувач вибирає завдання для виконання.<br> 2. Користувач оновлює статус завдання (наприклад, "Завершено").<br> 3. Система зберігає оновлений статус завдання. |
 
-![Виконання завдань](https://www.plantuml.com/plantuml/png/XP31QeD038RlynGlR0wAYWTYKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjprzXkVPU-_RlJYN8UEOW8IONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vMhiFOZSoTdmSKZPcMUfv_W80)
+@startuml
+|Користувач|
+start
+:Вибирає завдання для виконання;
+:Оновлює статус завдання (наприклад, "Завершено");
 
-### ViewProjects - Перегляд проектів
+|Система|
+:Перевіряє наявність завдання;
+if (Завдання існує?) then (TaskNotFoundException)
+    :TaskNotFoundException;
+else (Завдання знайдено)
+    :Зберігає оновлений статус завдання;
+endif
+
+|Користувач|
+:Завдання успішно виконано;
+stop
+@enduml
+
+******
 
 | ID             | ViewProjects                             |
 |----------------|------------------------------------------|
@@ -59,9 +155,25 @@
 | Виключні ситуації | Проекти не знайдені — ProjectsNotFoundException |
 | Основний сценарій | 1. Користувач відкриває розділ проектів.<br> 2. Система відображає список доступних проектів.<br> 3. Користувач переглядає проекти, до яких має доступ. |
 
-![Перегляд проектів](https://www.plantuml.com/plantuml/png/TP31ReD038RlynGNRiUqYWRYKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjOGzYkVPU-_RlJYNHQBKR9EONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vH9YyWiJuLHyT01C1z9BXaLRVpC1WZLFz0000)
+@startuml
+|Користувач|
+start
+:Відкриває розділ проектів;
 
-### SendMessage - Написання повідомлень
+|Система|
+:Відображає список доступних проектів;
+if (Проекти знайдені?) then (ProjectsNotFoundException)
+    :ProjectsNotFoundException;
+else (Проекти знайдені)
+    :Відображає доступні проекти;
+endif
+
+|Користувач|
+:Переглядає проекти, до яких має доступ;
+stop
+@enduml
+ 
+*****
 
 | ID             | SendMessage                             |
 |----------------|----------------------------------------|
@@ -72,9 +184,27 @@
 | Виключні ситуації | Повідомлення не надіслано — MessageFailedException |
 | Основний сценарій | 1. Користувач вибирає контакт або групу для повідомлення.<br> 2. Користувач вводить текст повідомлення.<br> 3. Користувач натискає кнопку "Надіслати".<br> 4. Система відправляє повідомлення. |
 
-![Написання повідомлень](https://www.plantuml.com/plantuml/png/VP51ReD038RlynGNRiUBYSTEKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjprrXlVPU-_RlJYN8WCeMAQONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vH9YyWiJuLHyT01C1z9BXaLRVpC1UZLDz0m00)
+@startuml
+|Користувач|
+start
+:Вибирає контакт або групу для повідомлення;
+:Вводить текст повідомлення;
+:Натискає кнопку "Надіслати";
 
-### CreateProject - Створення проекту
+|Система|
+:Відправляє повідомлення;
+if (Повідомлення надіслано?) then (MessageFailedException)
+    :MessageFailedException;
+else (Повідомлення надіслано)
+    :Повідомлення відправлено;
+endif
+
+|Користувач|
+:Повідомлення успішно надіслано;
+stop
+@enduml
+ 
+******
 
 | ID             | CreateProject                             |
 |----------------|-------------------------------------------|
@@ -85,10 +215,28 @@
 | Виключні ситуації | Проект з таким іменем вже існує — NotUniqueProjectName |
 | Основний сценарій | 1. Користувач переходить до меню управління проектами.<br> 2. Натискає кнопку "Створити новий проект".<br> 3. Заповнює інформацію про проект.<br> 4. Натискає кнопку "Створити".<br> 5. Система перевіряє, чи проект з таким іменем вже існує:<br>    - Якщо проект з таким іменем вже існує, генерується NotUniqueProjectName.<br> 6. Якщо перевірка успішна, система створює новий проект.<br> 7. Користувач переходить до нового проекту. |
 
-![Створення проекту](https://www.plantuml.com/plantuml/png/fP9DRjj03CVlVOg-GzG48L1JWWwMTK6waf5Gg4oJTcxsxPQkETKynPjptxXkVVU-_RlsQ37tWKjt8t7bOOIlMD29fKwfpOXJQGPMB0GTUDNLnc1jXbFf5HX7K4HHpP74ZcXPJ21LY2UPUDp6hS1qnBTJhbYkqg-GwsYRQRJe1kQr6nVDLHo9tYs1QIwFoODR4KE0fONUJE78HzD1kH4z9uyHXh6RVPUAUAZjkRZ5ZTz9Gqo9WXBr5aIfQkBXNZy1-_wYvKLU3C-RB8JEK0ZgBH2u5KofuP9KDC6g2S_Y0GMxl3mL5cQtb_DI_4OP_7F9VJ79xZkK_rnKC0hQyVCFdwK5Vv_xijUeRHCCpRMQgVzNSTzXuThhS18zcM9QUtVIYpTDcq7PcSU4W6jXMwdWBSJo8rNjGz_kpVjDmrHu6mFyLm00)
+@startuml
+|Користувач|
+start
+:Переходить до меню управління проектами;
+:Натискає кнопку "Створити новий проект";
+:Заповнює інформацію про проект;
+:Натискає кнопку "Створити";
 
-### EditProject - Редагування проекту
+|Система|
+:Перевіряє, чи проект з таким іменем вже існує;
+if (Проект з таким іменем існує?) then (NotUniqueProjectName)
+    :NotUniqueProjectName;
+else (Проект з таким іменем не існує)
+    :Створює новий проект;
+endif
 
+|Користувач|
+:Переходить до нового проекту;
+stop
+@enduml
+
+****
 | ID             | EditProject                             |
 |----------------|-----------------------------------------|
 | Назва          | Редагування проекту                    |
@@ -98,9 +246,29 @@
 | Виключні ситуації | Проект не знайдено — ProjectNotFoundException<br> Недостатньо прав для редагування — AccessDeniedException |
 | Основний сценарій | 1. Користувач відкриває проект.<br> 2. Натискає кнопку "Редагувати".<br> 3. Вносить зміни до проекту.<br> 4. Система перевіряє права на редагування.<br> 5. Система зберігає зміни. |
 
-![Редагування проекту](https://www.plantuml.com/plantuml/png/TP51QeD038RlynGlR0w9YhR4KnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjONzjkVPU-_RlJYNEKQYQ5EONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vMhiFOZSoTdmSKZPcMUfv_W80)
+@startuml
+|Користувач|
+start
+:Відкриває проект;
+:Натискає кнопку "Редагувати";
+:Вносить зміни до проекту;
 
-### AddMemberToProject - Додавання учасників до проекту
+|Система|
+:Перевіряє права на редагування;
+if (Недостатньо прав?) then (AccessDeniedException)
+    :AccessDeniedException;
+else (Доступ надано)
+    :Зберігає зміни;
+endif
+
+|Користувач|
+:Дані проекту успішно змінено;
+stop
+@enduml
+ 
+
+
+*****
 
 | ID             | AddMemberToProject                        |
 |----------------|-------------------------------------------|
@@ -111,9 +279,28 @@
 | Виключні ситуації | Користувача не знайдено — UserNotFoundException<br> Проект не знайдено — ProjectNotFoundException<br> Недостатньо прав для додавання учасника — AccessDeniedException |
 | Основний сценарій | 1. Користувач відкриває проект.<br> 2. Натискає кнопку "Додати учасника".<br> 3. Вводить дані нового учасника.<br> 4. Система перевіряє права на додавання учасника.<br> 5. Система додає учасника до проекту. |
 
-![Додавання учасників до проекту](https://www.plantuml.com/plantuml/png/TP31ReD038RlynGNRiUqYWRYKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjOrrlVPU-_RlJYNGcQYk5EONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vMhiFOZSoTdmSKZPcMUfv_W80)
 
-### AssignTask - Призначення завдань
+@startuml
+|Користувач|
+start
+:Відкриває проект;
+:Натискає кнопку "Додати учасника";
+:Вводить дані нового учасника;
+
+|Система|
+:Перевіряє права на додавання учасника;
+if (Недостатньо прав?) then (AccessDeniedException)
+    :AccessDeniedException;
+else (Доступ надано)
+    :Додає учасника до проекту;
+endif
+
+|Користувач|
+:Учасник успішно доданий до проекту;
+stop
+@enduml
+ 
+****
 
 | ID             | AssignTask                               |
 |----------------|------------------------------------------|
@@ -124,10 +311,27 @@
 | Виключні ситуації | Недостатньо прав для призначення завдання — AccessDeniedException |
 | Основний сценарій | 1. Користувач створює завдання.<br> 2. Призначає завдання конкретному користувачеві.<br> 3. Встановлює дедлайн для виконання завдання. |
 
-![Призначення завдань](https://www.plantuml.com/plantuml/png/TP51ReD038RlynGNRiUqYhRYKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjOpzPTkVPU-_RlJYN8HEeR5EONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vMhiFOZSoTdmSKZPcMUfv_W80)
+@startuml
+|Користувач|
+start
+:Створює завдання;
+:Призначає завдання конкретному користувачеві;
+:Встановлює дедлайн для виконання завдання;
 
-### GenerateReports - Формування звітів
+|Система|
+:Перевіряє права на призначення завдання;
+if (Недостатньо прав?) then (AccessDeniedException)
+    :AccessDeniedException;
+else (Доступ надано)
+    :Завдання призначено учасникам проекту;
+endif
 
+|Користувач|
+:Завдання успішно призначено;
+stop
+@enduml
+
+****
 | ID             | GenerateReports                          |
 |----------------|------------------------------------------|
 | Назва          | Формування звітів                        |
@@ -137,9 +341,26 @@
 | Виключні ситуації | Не вдалося сформувати звіт — ReportGenerationException |
 | Основний сценарій | 1. Користувач вибирає період для звіту.<br> 2. Система генерує звіт по виконаних завданнях і прогресу проекту. |
 
-![Формування звітів](https://www.plantuml.com/plantuml/png/PP51ReD038RlynHNUUigYWTMKnTWHKJ4OJA7Y4IJTcpsxx9PD2YLnDjOrzXkVPU-_RlJYN8SEmz8IONdPYYDZ29fIgbpOXJQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vHjYCZ8qUuDSd0Fq_RQVClF8gVXZLLN8mF_y0G00)
 
-### ManagePermissions - Управління правами доступу
+@startuml
+|Користувач|
+start
+:Вибирає період для звіту;
+
+|Система|
+:Генерує звіт по виконаних завданнях і прогресу проекту;
+if (Не вдалося сформувати звіт?) then (ReportGenerationException)
+    :ReportGenerationException;
+else (Звіт успішно сформовано)
+    :Звіт сформовано успішно;
+endif
+
+|Користувач|
+:Отримує звіт;
+stop
+@enduml
+
+****
 
 | ID             | ManagePermissions                        |
 |----------------|------------------------------------------|
@@ -150,9 +371,27 @@
 | Виключні ситуації | Недостатньо прав для зміни доступу — AccessDeniedException |
 | Основний сценарій | 1. Користувач вибирає учасника.<br> 2. Змінює його права доступу до проекту (наприклад, права на редагування або перегляд). |
 
-![Управління правами доступу](https://www.plantuml.com/plantuml/png/TP51Ri8m34NtEiL85GDfCX0YaB18k1qIH2gu9SGRYIcJzx-oSoQQMkTzlzJARzUzkz_ZVJ38HEeI2IN58Ggp4MJbMgjpRBBQGNIBz4TUDNPnc1jXbFf5HX7K4HHpP74ZcXPJ21LmEXdXDH6hS1qnBTJhbYkqg-GwsYN3rLLv8A9PFYHqPeQdSr5R7QQ2xkC-vPnr0-IFYmIHAG7O1OWZMUgSfFk3TnWzwn7FCwt0vbJ8JC7FabV3WcKv_2TByjILmz31EJYV8M5vMhiFOZSoTdmSKZPcMUfv_W80)
+@startuml
+|Користувач|
+start
+:Вибирає учасника;
+:Змінює його права доступу до проекту;
 
-### ManageSystemSettings - Налаштування системи
+|Система|
+:Перевіряє права на зміну доступу;
+if (Недостатньо прав?) then (AccessDeniedException)
+    :AccessDeniedException;
+else (Доступ надано)
+    :Зміни прав доступу успішно збережено;
+endif
+
+|Користувач|
+:Права доступу успішно змінено;
+stop
+@enduml
+ 
+
+*****
 
 | ID             | ManageSystemSettings                      |
 |----------------|-------------------------------------------|
@@ -162,9 +401,21 @@
 | Результат      | Налаштовані параметри системи            |
 | Основний сценарій | 1. Адміністратор змінює налаштування системи (наприклад, мовні налаштування, налаштування безпеки тощо).<br> 2. Система застосовує нові налаштування. |
 
-![Налаштування системи](https://www.plantuml.com/plantuml/png/PP3DheCm48JlVWepXDtIkWpN2cRQnq1t4dI2fIO8cjm8xvDM4ztbMaUlzVVFJF6fkNvS5IfK4e6h95B8Q5gbcMI7YoWyfP7sYPK1tV82zYLnZOr5TGNkWiXsgKFQl-OqbCEPqXKtFnqw8AZVdQJcVjnX-aLKUImW3ypFUwNZlbjGrgfqAQV-N9UCM7Eo-Pk9k1r_qEA2ycKwuWcyH6y6JNb4t3SDSa7u6p-EADvMNn4lRtgYnHv-0G00)
 
-### ManageUsers - Керування користувачами
+@startuml
+|Адміністратор|
+start
+:Змінює налаштування системи (мовні налаштування, безпека тощо);
+
+|Система|
+:Застосовує нові налаштування;
+
+|Адміністратор|
+:Параметри системи успішно налаштовані;
+stop
+@enduml
+
+****
 
 | ID             | ManageUsers                             |
 |----------------|-----------------------------------------|
@@ -174,9 +425,22 @@
 | Результат      | Керування обліковими записами користувачів |
 | Основний сценарій | 1. Адміністратор додає нового користувача.<br> 2. Адміністратор редагує або видаляє існуючого користувача. |
 
-![Керування користувачами](https://www.plantuml.com/plantuml/png/TP31RiCW38RlVGeVk0jY8n1KW8Wm5CK2B4X6GSJnDpGXg-UTgnFY9bz__Tti_4yOeOFrYWr6GHw5gF9m2WcVKKjGC5NGLLZtIh0KgbwdJCX82wHMJ8KZdz0GwIz3q8jnZhUKzLnKIJF3Bi7JT33SPYufmEu5QMcY0c6g-zFd18xEXiARJnHFq6R4Uc7TXNRtqBtWbgM6pNRMQzBXTcvxznbGgvAhJnMdKhTbxSZ-SQDMy-PkZhX_)
 
-### ManageProjects - Керування проектами
+@startuml
+|Адміністратор|
+start
+:Додає нового користувача;
+
+|Система|
+:Перевіряє дані нового користувача;
+:Створює обліковий запис для нового користувача;
+
+|Адміністратор|
+:Редагує або видаляє існуючого користувача;
+stop
+@enduml
+ 
+*****
 
 | ID             | ManageProjects                         |
 |----------------|----------------------------------------|
@@ -186,4 +450,22 @@
 | Результат      | Зміни в проектах                       |
 | Основний сценарій | 1. Адміністратор налаштовує доступ до проектів.<br> 2. Адміністратор видаляє або архівує проекти. |
 
-![Керування проектами](https://www.plantuml.com/plantuml/png/TP31RiCW38RlVGeVk0jY8n1KW8Wm5CK2B4X6GSJnDpGXg-UTgnFY9bz__Tti_4yOeOFrYWr6GHw5gF9m2WcVKKjGC5NGLLZtIh0KgbwdJCX82wHMJ8KZdz0GwIz3q8jnZhUKzLnKIJF3Bi7JT33SPYufmEu5QMcY0c6g-zFd18xEXiARJnHFq6R4Uc7TXNRtqBtWbgM6pNRMQzBXTcvxznbGgvAhJnMdKhTbxSZ-SQDMy-PkZhX_)
+
+@startuml
+|Адміністратор|
+start
+:Налаштовує доступ до проектів;
+
+|Система|
+:Перевіряє доступ та змінює налаштування;
+
+|Адміністратор|
+:Видаляє або архівує проекти;
+stop
+@enduml
+
+****
+
+
+</center>
+
