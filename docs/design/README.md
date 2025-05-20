@@ -395,4 +395,4 @@ end note
 
 # реляційна схема
 
-![Реляційна схема](21.bmp)
+![Реляційна схема](https://i.postimg.cc/MTNqmPbm/image.png)

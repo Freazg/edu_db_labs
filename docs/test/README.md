@@ -33,8 +33,8 @@ This document contains a collection of API tests for database endpoints.
   "time": "2025-05-16T13:00:00Z"
 }
 ```
-![](1t.bmp)
-![](1.bmp)
+![](https://i.postimg.cc/wjMznYfQ/1t.png)
+![](https://i.postimg.cc/3xtRDZ6n/1.png)
 ## Users
 
 ### Get All Users
@@ -64,7 +64,7 @@ This document contains a collection of API tests for database endpoints.
   }
 ]
 ```
-![](2.bmp)
+![](https://i.postimg.cc/q7KPdJ8y/2.png)
 ### Create User
 
 **Method:** POST
@@ -93,7 +93,7 @@ This document contains a collection of API tests for database endpoints.
   "is_active": true
 }
 ```
-![](3.bmp)
+![](https://i.postimg.cc/W3jHLMpc/3.png)
 ## Projects
 
 ### Get Projects
@@ -105,7 +105,7 @@ This document contains a collection of API tests for database endpoints.
 **Expected Status Code:** 200
 
 **Response Body:** Array of projects
-![](12.bmp)
+![](https://i.postimg.cc/j5sZktvs/12.png)
 ### Create Project
 
 **Method:** POST
@@ -127,7 +127,7 @@ This document contains a collection of API tests for database endpoints.
 **Expected Status Code:** 201
 
 **Response Body:** Created project object
-![](13.bmp)
+![](https://i.postimg.cc/pVcqqNjH/13.png)
 ## Tasks
 
 ### Get Tasks
@@ -137,7 +137,7 @@ This document contains a collection of API tests for database endpoints.
 **URL:** http://localhost:8080/tasks
 
 **Expected Status Code:** 200
-![](16.bmp)
+![](https://i.postimg.cc/xd9v9gm5/16.png)
 ### Create Task
 
 **Method:** POST
@@ -154,7 +154,7 @@ This document contains a collection of API tests for database endpoints.
   "project_id": "project-uuid"
 }
 ```
-![](17.bmp)
+![](https://i.postimg.cc/9Qh8qdTR/17.png)
 ## Messages
 
 ### Get Messages
@@ -164,7 +164,7 @@ This document contains a collection of API tests for database endpoints.
 **URL:** http://localhost:8080/messages
 
 **Expected Status Code:** 200
-![](19.bmp)
+![](https://i.postimg.cc/yYFnBD5V/19.png)
 ## Reports
 
 ### Create Report
@@ -186,4 +186,4 @@ This document contains a collection of API tests for database endpoints.
 ```
 
 **Expected Status Code:** 201
-![](22.bmp)
+![](https://i.postimg.cc/fWdfj3Mx/22.png)
