@@ -20,7 +20,3 @@
     "vuepress-theme-cool": "^1.3.1"
   }
 }
-"scripts": {
-  "docs:build": "set NODE_ENV=production && vuepress build docs --no-fail-on-error",
-  "docs:build-force": "set NODE_ENV=production && vuepress build docs --no-fail-on-error --quiet"
-}
