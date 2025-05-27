@@ -3,221 +3,169 @@
 В рамках проекту розробляється: 
 # модель бізнес-об'єктів 
 
-@startuml
+skinparam style strictuml
 
-left to right direction
+' ==================== User ====================
+entity User #99CC66
+entity User.id #CDE7B0
+entity User.email #CDE7B0
+entity User.password_hash #CDE7B0
+entity User.first_name #CDE7B0
+entity User.last_name #CDE7B0
+entity User.registration_date #CDE7B0
+entity User.last_login #CDE7B0
+entity User.is_active #CDE7B0
+User.id --* User
+User.email --* User
+User.password_hash --* User
+User.first_name --* User
+User.last_name --* User
+User.registration_date --* User
+User.last_login --* User
+User.is_active --* User
 
-' ===== АКТОРИ =====
-entity "Користувач" as User #52f752
-entity User.id #aaffaa
-entity User.email #aaffaa
-entity User.password_hash #aaffaa
-entity User.registration_date #aaffaa
-entity User.last_login #aaffaa
+' ==================== Role ====================
+entity Role #FFCC66
+entity Role.id #FFE7B0
+entity Role.name #FFE7B0
+entity Role.description #FFE7B0
+entity Role.is_system #FFE7B0
+Role.id --* Role
+Role.name --* Role
+Role.description --* Role
+Role.is_system --* Role
 
-User.id -d-* User
-User.email -d-* User
-User.password_hash -d-* User
-User.registration_date -d-* User
-User.last_login -d-* User
+' ==================== Permission ====================
+entity Permission #66CCFF
+entity Permission.id #B0E0FF
+entity Permission.code #B0E0FF
+entity Permission.description #B0E0FF
+entity Permission.module #B0E0FF
+Permission.id --* Permission
+Permission.code --* Permission
+Permission.description --* Permission
+Permission.module --* Permission
 
-entity "Керівник проекту" as Manager #f74564
-entity Manager.projects_created #FFC0CB
-entity Manager.team_size #FFC0CB
-entity Manager.access_level #FFC0CB
+' ==================== Project ====================
+entity Project #FF99CC
+entity Project.id #F6C9DD
+entity Project.title #F6C9DD
+entity Project.description #F6C9DD
+entity Project.start_date #F6C9DD
+entity Project.deadline #F6C9DD
+entity Project.status #F6C9DD
+entity Project.owner_id #F6C9DD
+Project.id --* Project
+Project.title --* Project
+Project.description --* Project
+Project.start_date --* Project
+Project.deadline --* Project
+Project.status --* Project
+Project.owner_id --* Project
 
-Manager.projects_created -d-* Manager
-Manager.team_size -d-* Manager
-Manager.access_level -d-* Manager
+' ==================== Task ====================
+entity Task #9999FF
+entity Task.id #CCCCFF
+entity Task.title #CCCCFF
+entity Task.description #CCCCFF
+entity Task.priority #CCCCFF
+entity Task.status #CCCCFF
+entity Task.created_at #CCCCFF
+entity Task.updated_at #CCCCFF
+entity Task.project_id #CCCCFF
+Task.id --* Task
+Task.title --* Task
+Task.description --* Task
+Task.priority --* Task
+Task.status --* Task
+Task.created_at --* Task
+Task.updated_at --* Task
+Task.project_id --* Task
 
-entity "Адміністратор" as Admin #06bfbf
-entity Admin.super_user #9effff
-entity Admin.system_access #9effff
-entity Admin.audit_logs #9effff
+' ==================== Message ====================
+entity Message #6699CC
+entity Message.id #AFCBE9
+entity Message.content #AFCBE9
+entity Message.sent_at #AFCBE9
+entity Message.is_read #AFCBE9
+entity Message.sender_id #AFCBE9
+entity Message.recipient_id #AFCBE9
+Message.id --* Message
+Message.content --* Message
+Message.sent_at --* Message
+Message.is_read --* Message
+Message.sender_id --* Message
+Message.recipient_id --* Message
 
-Admin.super_user -d-* Admin
-Admin.system_access -d-* Admin
-Admin.audit_logs -d-* Admin
+' ==================== Report ====================
+entity Report #CC9966
+entity Report.id #E6C6A5
+entity Report.generated_at #E6C6A5
+entity Report.period_start #E6C6A5
+entity Report.period_end #E6C6A5
+entity Report.format #E6C6A5
+entity Report.content_hash #E6C6A5
+entity Report.file_path #E6C6A5
+entity Report.author_id #E6C6A5
+Report.id --* Report
+Report.generated_at --* Report
+Report.period_start --* Report
+Report.period_end --* Report
+Report.format --* Report
+Report.content_hash --* Report
+Report.file_path --* Report
+Report.author_id --* Report
 
-' ===== КОРИСТУВАЧ =====
-entity "Реєстрація (UserSignUp)" as SignUp #aaffaa
-entity SignUp.email_validation #aaffaa
-entity SignUp.password_policy #aaffaa
-entity SignUp.captcha #aaffaa
+' ==================== User_Role ====================
+entity User_Role #D5B8FF
+entity User_Role.assigned_at #E6CCFF
+entity User_Role.assigned_by #E6CCFF
+User_Role.assigned_at --* User_Role
+User_Role.assigned_by --* User_Role
 
-SignUp.email_validation -d-* SignUp
-SignUp.password_policy -d-* SignUp
-SignUp.captcha -d-* SignUp
+' ==================== Role_Permission ====================
+entity Role_Permission #CCE5FF
+entity Role_Permission.granted_at #E6F2FF
+entity Role_Permission.granted_by #E6F2FF
+Role_Permission.granted_at --* Role_Permission
+Role_Permission.granted_by --* Role_Permission
 
-entity "Перегляд проектів (ViewProjects)" as ViewProjects #aaffaa
-entity ViewProjects.search_filters #aaffaa
-entity ViewProjects.sorting #aaffaa
-entity ViewProjects.pagination #aaffaa
+' ==================== Project_Member ====================
+entity Project_Member #FFB366
+entity Project_Member.joined_at #FFD9B3
+entity Project_Member.role #FFD9B3
+entity Project_Member.assigned_by #FFD9B3
+Project_Member.joined_at --* Project_Member
+Project_Member.role --* Project_Member
+Project_Member.assigned_by --* Project_Member
 
-ViewProjects.search_filters -d-* ViewProjects
-ViewProjects.sorting -d-* ViewProjects
-ViewProjects.pagination -d-* ViewProjects
+' ==================== Task_Assignment ====================
+entity Task_Assignment #B366FF
+entity Task_Assignment.assigned_at #D9B3FF
+entity Task_Assignment.assigned_by #D9B3FF
+entity Task_Assignment.deadline #D9B3FF
+Task_Assignment.assigned_at --* Task_Assignment
+Task_Assignment.assigned_by --* Task_Assignment
+Task_Assignment.deadline --* Task_Assignment
 
-entity "Виконання завдань (CreateTask)" as CompleteTask #aaffaa
-entity CompleteTask.status_update #aaffaa
-entity CompleteTask.time_spent #aaffaa
-entity CompleteTask.attachments #aaffaa
+' ==================== Relationships ====================
+User "0,*" -d- "1,*" User_Role
+User_Role "1,*" -d- "0,*" Role
+Role "0,*" -d- "1,*" Role_Permission
+Role_Permission "1,*" -d- "0,*" Permission
 
-CompleteTask.status_update -d-* CompleteTask
-CompleteTask.time_spent -d-* CompleteTask
-CompleteTask.attachments -d-* CompleteTask
+User "1,1" -d- "0,*" Project : owner
+User "0,*" -d- "1,*" Project_Member
+Project_Member "1,*" -d- "0,*" Project
 
-entity "Написання повідомлень (SendMessage)" as SendMessage #aaffaa
-entity SendMessage.recipients #aaffaa
-entity SendMessage.encryption #aaffaa
-entity SendMessage.history #aaffaa
+Project "1,1" -d- "0,*" Task
+User "0,*" -d- "1,*" Task_Assignment
+Task_Assignment "1,*" -d- "0,*" Task
 
-SendMessage.recipients -d-* SendMessage
-SendMessage.encryption -d-* SendMessage
-SendMessage.history -d-* SendMessage
+User "1,1" -d- "0,*" Message : sender
+User "1,1" -d- "0,*" Message : recipient
 
-' ===== КЕРІВНИК =====
-entity "Створення проекту (CreateProject)" as CreateProject #FFC0CB
-entity CreateProject.templates #FFC0CB
-entity CreateProject.workflow #FFC0CB
-entity CreateProject.permissions #FFC0CB
-
-CreateProject.templates -d-* CreateProject
-CreateProject.workflow -d-* CreateProject
-CreateProject.permissions -d-* CreateProject
-
-entity "Додавання учасників (AddMemberToProject)" as AddMember #FFC0CB
-entity AddMember.invitations #FFC0CB
-entity AddMember.role_assignment #FFC0CB
-entity AddMember.notifications #FFC0CB
-
-AddMember.invitations -d-* AddMember
-AddMember.role_assignment -d-* AddMember
-AddMember.notifications -d-* AddMember
-
-entity "Редагування проекту (EditProject)" as EditProject #FFC0CB
-entity EditProject.version_control #FFC0CB
-entity EditProject.approval #FFC0CB
-entity EditProject.audit #FFC0CB
-
-EditProject.version_control -d-* EditProject
-EditProject.approval -d-* EditProject
-EditProject.audit -d-* EditProject
-
-entity "Призначення завдань (AssignTask)" as AssignTask #FFC0CB
-entity AssignTask.priority_levels #FFC0CB
-entity AssignTask.dependencies #FFC0CB
-entity AssignTask.notifications #FFC0CB
-
-AssignTask.priority_levels -d-* AssignTask
-AssignTask.dependencies -d-* AssignTask
-AssignTask.notifications -d-* AssignTask
-
-entity "Формування звітів (GenerateReports)" as GenerateReport #FFC0CB
-entity GenerateReport.custom_templates #FFC0CB
-entity GenerateReport.data_sources #FFC0CB
-entity GenerateReport.export_options #FFC0CB
-
-GenerateReport.custom_templates -d-* GenerateReport
-GenerateReport.data_sources -d-* GenerateReport
-GenerateReport.export_options -d-* GenerateReport
-
-entity "Управління правами (ManagePermissions)" as ManagePermissions #FFC0CB
-entity ManagePermissions.role_editor #FFC0CB
-entity ManagePermissions.access_matrix #FFC0CB
-entity ManagePermissions.audit_trail #FFC0CB
-
-ManagePermissions.role_editor -d-* ManagePermissions
-ManagePermissions.access_matrix -d-* ManagePermissions
-ManagePermissions.audit_trail -d-* ManagePermissions
-
-' ===== АДМІНІСТРАТОР =====
-entity "Керування проектами (ManageProjects)" as ManageProjects #9effff
-entity ManageProjects.bulk_actions #9effff
-entity ManageProjects.archive #9effff
-entity ManageProjects.statistics #9effff
-
-ManageProjects.bulk_actions -d-* ManageProjects
-ManageProjects.archive -d-* ManageProjects
-ManageProjects.statistics -d-* ManageProjects
-
-entity "Налаштування системи (ManageSystemSettings)" as ManageSystem #9effff
-entity ManageSystem.configuration #9effff
-entity ManageSystem.integrations #9effff
-entity ManageSystem.backups #9effff
-
-ManageSystem.configuration -d-* ManageSystem
-ManageSystem.integrations -d-* ManageSystem
-ManageSystem.backups -d-* ManageSystem
-
-entity "Керування користувачами (ManageUsers)" as ManageUsers #9effff
-entity ManageUsers.import_export #9effff
-entity ManageUsers.bulk_operations #9effff
-entity ManageUsers.activity_logs #9effff
-
-ManageUsers.import_export -d-* ManageUsers
-ManageUsers.bulk_operations -d-* ManageUsers
-ManageUsers.activity_logs -d-* ManageUsers
-
-' ===== ЗВ'ЯЗКИ =====
-User "1,1" --> "0,*" SignUp : "ID: UserSignUp"
-User "1,1" --> "0,*" ViewProjects : "ID: ViewProjects"
-User "1,1" --> "0,*" CompleteTask : "ID: CreateTask"
-User "1,1" --> "0,*" SendMessage : "ID: SendMessage"
-
-Manager "1,1" --> "0,*" CreateProject : "ID: CreateProject"
-Manager "1,1" --> "0,*" AddMember : "ID: AddMemberToProject"
-Manager "1,1" --> "0,*" EditProject : "ID: EditProject"
-Manager "1,1" --> "0,*" AssignTask : "ID: AssignTask"
-Manager "1,1" --> "0,*" GenerateReport : "ID: GenerateReports"
-Manager "1,1" --> "0,*" ManagePermissions : "ID: ManagePermissions"
-
-Admin "1,1" --> "0,*" ManageProjects : "ID: ManageProjects"
-Admin "1,1" --> "0,*" ManageSystem : "ID: ManageSystemSettings"
-Admin "1,1" --> "0,*" ManageUsers : "ID: ManageUsers"
-
-' ===== ДЕТАЛЬНІ ЗВ'ЯЗКИ ====
-CreateProject "1,1" <-- "0,*" ViewProjects : "впливає на"
-AddMember "0,*" --> "1,1" User : "додає"
-AssignTask "0,*" --> "1,1" CompleteTask : "створює"
-GenerateReport "0,*" --> "1,1" CompleteTask : "використовує дані"
-GenerateReport "0,*" --> "1,1" ViewProjects : "включає"
-ManageUsers "0,*" --> "1,1" User : "контролює"
-ManageProjects "0,*" --> "1,1" CreateProject : "керує"
-
-' ===== ВИКЛЮЧНІ СИТУАЦІЇ =====
-note bottom of SignUp
-  <b>Exceptions:</b>
-  - UserAlreadyExistsException
-  - NotStrongPasswordException
-  - InvalidEmailFormatException
-end note
-
-note bottom of CompleteTask
-  <b>Exceptions:</b>
-  - TaskNotFoundException
-  - AccessDeniedException
-  - DeadlineExceededException
-end note
-
-note bottom of AddMember
-  <b>Exceptions:</b>
-  - UserNotFoundException
-  - ProjectNotFoundException
-  - DuplicateMemberException
-end note
-
-' ===== СПІЛЬНІ МОЖЛИВОСТІ =====
-note top of User
-  <b>Common Features:</b>
-  - Profile management
-  - Notification center
-  - Dashboard access
-end note
-
-@enduml
-
-
+User "1,1" -d- "0,*" Report : author
 # ER-модель
 
 @startuml
