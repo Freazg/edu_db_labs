@@ -175,178 +175,140 @@ User "1,1" -d- "0,*" Report : author
 # ER-модель
 
 @startuml
-left to right direction
-skinparam linetype polyline
-skinparam nodesep 80
-skinparam ranksep 80
-
-' ===== CORE ENTITIES =====
-entity User {
-    * id : UUID
-    --
-    email : VARCHAR(255) <<UNIQUE>>
-    password_hash : VARCHAR(255)
-    first_name : VARCHAR(100)
-    last_name : VARCHAR(100)
-    registration_date : DATETIME
-    last_login : DATETIME
-    is_active : BOOLEAN
-}
-
-entity Project {
-    * id : UUID
-    --
-    title : VARCHAR(255)
-    description : TEXT
-    start_date : DATETIME
-    deadline : DATETIME
-    status : ENUM('planned','active','completed','archived')
-    owner_id : UUID <<FK>>
-}
-
-entity Task {
-    * id : UUID
-    --
-    title : VARCHAR(255)
-    description : TEXT
-    priority : ENUM('low','medium','high','critical')
-    status : ENUM('new','in_progress','completed','rejected')
-    created_at : DATETIME
-    updated_at : DATETIME
-    project_id : UUID <<FK>>
-}
-
-' ===== SECURITY ENTITIES =====
-entity Role {
-    * id : UUID
-    --
-    name : VARCHAR(50) <<UNIQUE>>
-    description : TEXT
-    is_system : BOOLEAN
-}
-
-entity Permission {
-    * id : UUID
-    --
-    code : VARCHAR(100) <<UNIQUE>>
-    description : TEXT
-    module : VARCHAR(50)
-}
-
-' ===== CONTENT ENTITIES =====
-entity Message {
-    * id : UUID
-    --
-    content : TEXT
-    sent_at : DATETIME
-    is_read : BOOLEAN
-    sender_id : UUID <<FK>>
-    recipient_id : UUID <<FK>>
-}
-
-entity Report {
-    * id : UUID
-    --
-    generated_at : DATETIME
-    period_start : DATE
-    period_end : DATE
-    format : ENUM('pdf','csv','excel')
-    content_hash : VARCHAR(64)
-    author_id : UUID <<FK>>
-}
-
-' ===== JOIN TABLES =====
-entity UserRole {
-    * user_id : UUID <<FK>>
-    * role_id : UUID <<FK>>
-    --
-    assigned_at : DATETIME
-    assigned_by : UUID <<FK>>
-}
-
-entity RolePermission {
-    * role_id : UUID <<FK>>
-    * permission_id : UUID <<FK>>
-    --
-    granted_at : DATETIME
-    granted_by : UUID <<FK>>
-}
-
-entity ProjectMember {
-    * project_id : UUID <<FK>>
-    * user_id : UUID <<FK>>
-    --
-    joined_at : DATETIME
-    role : ENUM('member','manager','observer')
-}
-
-entity TaskAssignment {
-    * task_id : UUID <<FK>>
-    * user_id : UUID <<FK>>
-    --
-    assigned_at : DATETIME
-    assigned_by : UUID <<FK>>
-    deadline : DATETIME
-}
-
-' ===== SYSTEM ENTITIES =====
-entity SystemConfig {
-    * id : UUID
-    --
-    param_name : VARCHAR(100) <<UNIQUE>>
-    param_value : TEXT
-    data_type : ENUM('string','number','boolean','json')
-    is_public : BOOLEAN
-}
-
-entity AuditLog {
-    * id : UUID
-    --
-    action_type : VARCHAR(50)
-    entity_type : VARCHAR(50)
-    entity_id : UUID
-    changed_values : JSON
-    performed_at : DATETIME
-    user_id : UUID <<FK>>
-}
-
-' ===== RELATIONSHIPS =====
-User "1" -- "0..*" Message : sends
-User "1" -- "0..*" Message : receives
-
-User "1" -- "0..*" Project : owns
-Project "1" -- "0..*" Task : contains
-
-User "1" -- "0..*" Task : creates
-User "0..*" -- "0..*" Task : assigned > TaskAssignment
-
-User "0..*" -- "0..*" Role : via > UserRole
-Role "0..*" -- "0..*" Permission : via > RolePermission
-
-User "0..*" -- "0..*" Project : members > ProjectMember
-User "1" -- "0..*" Report : generates
-
-SystemConfig "0..*" -- "0..1" User : modified_by
-AuditLog "0..*" -- "1" User : performed_by
-
-' ===== ENUM NOTES =====
-note top of Task
-    **Status Values:**
-    - new
-    - in_progress
-    - completed
-    - rejected
-end note
-
-note top of ProjectMember
-    **Role Types:**
-    - member
-    - manager
-    - observer
-end note
-
+    left to right direction
+    
+    entity User {
+        id : UUID
+        --
+        email : varchar(255)
+        password_hash : varchar(255)
+        first_name : varchar(100)
+        last_name : varchar(100)
+        registration_date : timestamp
+        last_login : timestamp
+        is_active : boolean
+    }
+    
+    entity Role {
+        id : UUID
+        --
+        name : varchar(50)
+        description : text
+        is_system : boolean
+    }
+    
+    entity Permission {
+        id : UUID
+        --
+        code : varchar(100)
+        description : text
+        module : varchar(50)
+    }
+    
+    entity Project {
+        id : UUID
+        --
+        title : varchar(255)
+        description : text
+        start_date : timestamp
+        deadline : timestamp
+        status : varchar(20)
+        owner_id : UUID
+    }
+    
+    entity Task {
+        id : UUID
+        --
+        title : varchar(255)
+        description : text
+        priority : varchar(10)
+        status : varchar(15)
+        created_at : timestamp
+        updated_at : timestamp
+        project_id : UUID
+    }
+    
+    entity Message {
+        id : UUID
+        --
+        content : text
+        sent_at : timestamp
+        is_read : boolean
+        sender_id : UUID
+        recipient_id : UUID
+    }
+    
+    entity Report {
+        id : UUID
+        --
+        generated_at : timestamp
+        period_start : date
+        period_end : date
+        format : varchar(10)
+        content_hash : varchar(64)
+        file_path : varchar(255)
+        author_id : UUID
+    }
+    
+    entity User_Role {
+        user_id : UUID
+        role_id : UUID
+        --
+        assigned_at : timestamp
+        assigned_by : UUID
+    }
+    
+    entity Role_Permission {
+        role_id : UUID
+        permission_id : UUID
+        --
+        granted_at : timestamp
+        granted_by : UUID
+    }
+    
+    entity Project_Member {
+        project_id : UUID
+        user_id : UUID
+        --
+        joined_at : timestamp
+        role : varchar(10)
+        assigned_by : UUID
+    }
+    
+    entity Task_Assignment {
+        task_id : UUID
+        user_id : UUID
+        --
+        assigned_at : timestamp
+        assigned_by : UUID
+        deadline : timestamp
+    }
+    
+    ' User relationships
+    User "0..*" -- "1..*" User_Role
+    User_Role "1..*" -- "0..*" Role
+    
+    Role "0..*" -- "1..*" Role_Permission
+    Role_Permission "1..*" -- "0..*" Permission
+    
+    ' Project relationships
+    User "1" -- "0..*" Project : owner
+    User "0..*" -- "1..*" Project_Member
+    Project_Member "1..*" -- "0..*" Project
+    
+    ' Task relationships
+    Project "1" -- "0..*" Task
+    User "0..*" -- "1..*" Task_Assignment
+    Task_Assignment "1..*" -- "0..*" Task
+    
+    ' Message relationships
+    User "1" -- "0..*" Message : sender
+    User "1" -- "0..*" Message : recipient
+    
+    ' Report relationships
+    User "1" -- "0..*" Report : author
+    
 @enduml
-
 # реляційна схема
 
 ![Реляційна схема](https://i.postimg.cc/MTNqmPbm/image.png)
