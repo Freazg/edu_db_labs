@@ -3,6 +3,8 @@
 В рамках проекту розробляється: 
 # модель бізнес-об'єктів 
 
+@startuml
+
 skinparam style strictuml
 
 ' ==================== User ====================
@@ -166,6 +168,10 @@ User "1,1" -d- "0,*" Message : sender
 User "1,1" -d- "0,*" Message : recipient
 
 User "1,1" -d- "0,*" Report : author
+
+@enduml
+
+
 # ER-модель
 
 @startuml
